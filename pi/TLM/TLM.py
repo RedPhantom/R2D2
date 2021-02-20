@@ -7,13 +7,16 @@ from os import path
 from SCM.Configuration import LoggingConfig
 
 
-class ApplicationExceptions:
+class AppExceptions:
     class InvalidPathException(Exception):
         def __init__(self, invalid_path, message="The specified path does not exist: %s"):
             self._path = invalid_path
             self._message = message
 
             super().__init__(self._message % (self._path,))
+
+    class AIMException(Exception):
+        pass
 
 
 class Logging:
@@ -24,7 +27,7 @@ class Logging:
         """
 
         if not path.exists(logging_config.log_path):
-            raise ApplicationExceptions.InvalidPathException(logging_config.log_path)
+            raise AppExceptions.InvalidPathException(logging_config.log_path)
 
         logging.basicConfig(
             filename=logging_config.log_path,

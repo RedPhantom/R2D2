@@ -3,7 +3,7 @@
 from os import path
 
 from SCM.Configuration import Config
-from TLM.TLM import ApplicationExceptions
+from TLM.TLM import AppExceptions
 
 
 class ConfigurationManager:
@@ -16,7 +16,7 @@ class ConfigurationManager:
         """
 
         if not path.exists(config_path):
-            raise ApplicationExceptions.InvalidPathException(config_path)
+            raise AppExceptions.InvalidPathException(config_path)
 
         self._config_path = config_path
 
