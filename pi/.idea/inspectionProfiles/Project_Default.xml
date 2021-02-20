@@ -1,0 +1,13 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="onlytime.models.Clock.objects" />
+          <option value="procedure.sections.parse_pe" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
