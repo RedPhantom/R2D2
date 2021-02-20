@@ -12,7 +12,7 @@ def audio_test():
 
     speech_lib = SpeechLibrary()
     ai = AudioInterface(AudioConfig())
-    words = speech_lib.get_words(emotions=[6],
+    words = speech_lib.get_words(emotions=[SpeechLibrary.Emotions.HAPPY],
                                  filtering_method=SpeechLibrary.EmotionFilters.EXCLUSIVE)
     word = random.choice(words)
     ai.play_sound(word.get_absolute_path(AppConfig()))
