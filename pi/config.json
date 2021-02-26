@@ -1,0 +1,14 @@
+{
+    "app_config": {
+        "data_dir": "D:\\Development\\R2D2\\pi\\data"
+    },
+    "audio_config": {
+        "frequency": 44100,
+        "device_name": null
+    },
+    "logging_config": {
+        "log_path": "r2d2.log",
+        "message_format": "%(asctime)s    %(levelname)10s    %(message)s",
+        "level": 10
+    }
+}
