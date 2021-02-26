@@ -9,7 +9,8 @@ def config_test():
     saved_config = Config(app_config, audio_config, logging_config)
     saved_config.save("config.json")
 
-    loaded_config = Config.load("config.json")
+    loaded_config = Config()
+    loaded_config.load("config.json")
 
     assert loaded_config.app_config.data_dir == saved_config.app_config.data_dir
     assert loaded_config.logging_config.level == saved_config.logging_config.level

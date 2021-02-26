@@ -3,7 +3,26 @@ import logging
 import json
 
 
-class AppConfig:
+class ConfigModelBase:
+    """
+    Provide core functionalities for configuration models, such as formatted (str) printout.
+    """
+
+    def __str__(self) -> str:
+        """
+        Retrieve the formatted representation of the configuration class.
+        :return: a "key: value" combination per line.
+        """
+
+        key_value_pairs = []
+        for config_key, config_value in self.__dict__:
+            key_value_pairs.append(
+                "{config_key}: {config_value}".format(config_key=config_key, config_value=config_value))
+
+        return "\n".join(key_value_pairs)
+
+
+class AppConfig(ConfigModelBase):
     """
     A data model to represent application-specific configuration.
     """
@@ -21,7 +40,7 @@ class AppConfig:
         self.data_dir = data_dir
 
 
-class AudioConfig:
+class AudioConfig(ConfigModelBase):
     """
     A data model to represent audio and sound configuration.
     """
@@ -43,15 +62,15 @@ class AudioConfig:
         self.device_name = device_name
 
 
-class LoggingConfig:
+class LoggingConfig(ConfigModelBase):
     """
     A data model to represent the logging configuration.
     """
 
     class Defaults:
-        LOG_PATH = "r2d2.log"
-        MESSAGE_FORMAT = "%(asctime)s    %(levelname)10s    %(message)s"
-        LEVEL = logging.DEBUG
+        LOG_PATH: str = "r2d2.log"
+        MESSAGE_FORMAT: str = "%(asctime)s    %(levelname)10s    %(message)s"
+        LEVEL: int = logging.DEBUG
 
     def __init__(self,
                  log_path: str = Defaults.LOG_PATH,
@@ -75,11 +94,12 @@ class Config:
     """
 
     def __init__(self,
-                 app_config: AppConfig,
-                 audio_config: AudioConfig,
-                 logging_config: LoggingConfig):
+                 app_config: AppConfig = AppConfig(),
+                 audio_config: AudioConfig = AudioConfig(),
+                 logging_config: LoggingConfig = LoggingConfig()):
         """
-        Initialize the total configuration.
+        Initialize the total configuration. Omitting configuration object parameters
+        will set them to have default values.
         :param app_config: object containing the values of the application configuration.
         :param audio_config: object containing the values of the audio configuration.
         :param logging_config: object containing the values of the logging configuration.
@@ -91,8 +111,7 @@ class Config:
 
     def save(self, configuration_path):
         """
-        Save the configuration to `configuration_path`.
-
+        Save the configuration to the specified path.
         :param configuration_path: path to the configuration file.
         """
 
@@ -104,17 +123,20 @@ class Config:
         except IOError as io_err:
             print("ERROR: Failed to save configuration file to %s: %s" % (configuration_path, io_err))
 
-    @staticmethod
-    def load(configuration_path):
+    def load(self, configuration_path):
+        """
+        Load the specified configuration file into the configuration object.
+        Missing configuration keys will be set to default values.
+        :param configuration_path: path to configuration file.
+        """
+
         try:
             with open(configuration_path, "rt") as config_file:
                 json_data = json.loads(config_file.read())
 
-                app_config = AppConfig(**json_data["app_config"])
-                audio_config = AudioConfig(**json_data["audio_config"])
-                logging_config = LoggingConfig(**json_data["logging_config"])
-
-                return Config(app_config, audio_config, logging_config)
+                self.app_config = AppConfig(**json_data["app_config"])
+                self.audio_config = AudioConfig(**json_data["audio_config"])
+                self.logging_config = LoggingConfig(**json_data["logging_config"])
 
         except IOError as io_err:
             print("ERROR: Failed to load configuration from file %s: %s" % (configuration_path, io_err))
