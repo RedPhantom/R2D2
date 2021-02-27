@@ -1,6 +1,7 @@
 # Purpose: Provide a data model to represent the application configuration.
 import logging
 import json
+import copy
 
 
 class ConfigModelBase:
@@ -105,9 +106,9 @@ class Config:
         :param logging_config: object containing the values of the logging configuration.
         """
 
-        self.app_config = app_config
-        self.audio_config = audio_config
-        self.logging_config = logging_config
+        self.app_config = copy.deepcopy(app_config)
+        self.audio_config = copy.deepcopy(audio_config)
+        self.logging_config = copy.deepcopy(logging_config)
 
     def save(self, configuration_path):
         """
