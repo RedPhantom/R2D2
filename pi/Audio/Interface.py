@@ -21,6 +21,7 @@ class AudioInterface:
     def play_sound(file_path: str, volume_adjustment: float = Defaults.VOLUME):
         """
         Play a sound file in the background at the specified volume.
+
         :param file_path: path to the sound file to play.
         :param volume_adjustment: adjustment to the audio file amplitude, in Decibels.
         """

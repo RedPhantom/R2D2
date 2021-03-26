@@ -1,5 +1,7 @@
 # Purpose: contain custom object types.
 
+# TODO: Transition from custom classes to NewType() + a Limits class.
+
 class LimitedSignedPercentage:
     """
     Define the behavior of a signed (positive or negative) limited percentage - a value which cannot exceed

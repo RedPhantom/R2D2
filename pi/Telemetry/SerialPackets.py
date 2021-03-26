@@ -13,11 +13,11 @@ class SerialPacketType(IntEnum):
     MOTORS = 0x1
     SENSORS = 0x2
 
-    # This packet type informs the receiver that the next packet is related to the previous one.
     CONT = 0xFE
+    """This packet type informs the receiver that the next packet is related to the previous one."""
 
-    # This packet type informs the receive that the next packet is the last related packet to the previous one.
     LAST = 0xFF
+    """This packet type informs the receive that the next packet is the last related packet to the previous one."""
 
 
 class MotorSerialPacketType(IntEnum):
@@ -27,7 +27,7 @@ class MotorSerialPacketType(IntEnum):
 class BasicSerialPacket:
     """
     Models a basic serial packet.
-    Packets are made out of a type, sub-type (determined by the packet itself) and raw data.
+    Packets are made out of a type, sub-type (determined by the packet itself) and raw data (as a byte array).
     """
 
     STRUCT_FORMAT = "Bs"
@@ -42,7 +42,7 @@ class BasicSerialPacket:
         """
         Initialize a new serial packet.
         For every packet inheriting this Base Serial Packet, the ``super()`` call should be at the end of
-        the inheriting class' ``__init__`` method.
+        the inheriting class' ``__init__(self)`` method.
 
         :param packet_type: 8-bit unsigned integer describing the type of the packet sent.
         :param data: data to write to the serial bus.
@@ -62,19 +62,30 @@ class BasicSerialPacket:
         """
         Retrieve the string representation of the packet.
 
-        :param encoding: the encoding used to parse the packet data as.
+        :param encoding: encoding used to parse the packet data as.
         """
 
         return self._data.decode(encoding)
 
     def set(self, data: bytes):
+        """
+        Directly set the packet's bytes. Not recommended.
+
+        :param data: byte array to set this packet's data to.
+        """
+
         if not isinstance(data, bytes):
             raise TypeError("Data must be in form of a byte array.")
 
         self._data = data
 
     @property
-    def bytes(self):
+    def bytes(self) -> bytes:
+        """
+        Retrieve the packet's representation as bytes.
+        :return: bytes representation of this (or any inheriting) packet.
+        """
+
         return self._bytes
 
 

@@ -12,6 +12,7 @@ class ConfigModelBase:
     def __str__(self) -> str:
         """
         Retrieve the formatted representation of the configuration class.
+
         :return: a "key: value" combination per line.
         """
 
@@ -35,6 +36,7 @@ class AppConfig(ConfigModelBase):
                  data_dir: str = Defaults.DATA_DIR):
         """
         Initialize the application configuration.
+
         :param data_dir: absolute path of the directory of data files (assets).
         """
 
@@ -55,7 +57,8 @@ class AudioConfig(ConfigModelBase):
                  device_name: str = Defaults.DEVICE_NAME):
         """
         Initialize the audio configuration.
-        :param frequency: the sample frequency in which sounds would be played at.
+
+        :param frequency: sample frequency (rate) in which sounds would be played at.
         :param device_name: name of the audio device through which sound would be played.
         """
 
@@ -79,9 +82,10 @@ class LoggingConfig(ConfigModelBase):
                  level: int = Defaults.LEVEL):
         """
         Initialize the logging configuration.
+
         :param log_path: path in which the log file will be saved.
-        :param message_format: the format in which log messages will be formatted.
-        :param level: the minimal message level to report to file.
+        :param message_format: format in which log messages will be formatted.
+        :param level: minimal message level to report to file.
         """
 
         self.log_path = log_path
@@ -101,6 +105,7 @@ class Config:
         """
         Initialize the total configuration. Omitting configuration object parameters
         will set them to have default values.
+
         :param app_config: object containing the values of the application configuration.
         :param audio_config: object containing the values of the audio configuration.
         :param logging_config: object containing the values of the logging configuration.
@@ -113,6 +118,7 @@ class Config:
     def save(self, configuration_path):
         """
         Save the configuration to the specified path.
+
         :param configuration_path: path to the configuration file.
         """
 
@@ -127,7 +133,8 @@ class Config:
     def load(self, configuration_path):
         """
         Load the specified configuration file into the configuration object.
-        Missing configuration keys will be set to default values.
+        *Note*: missing configuration keys will be set to default values.
+
         :param configuration_path: path to configuration file.
         """
 

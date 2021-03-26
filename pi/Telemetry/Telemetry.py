@@ -26,7 +26,8 @@ class Logging:
     def __init__(self, logging_config: LoggingConfig):
         """
         Initialize a new logging object.
-        :param logging_config: the logging configuration to use.
+
+        :param logging_config: logging configuration to use.
         """
 
         if not path.exists(logging_config.log_path):
@@ -42,6 +43,7 @@ class Logging:
     def get_logger(module_name: str) -> logging.Logger:
         """
         Retrieve a module-specific logger.
+
         :param module_name: name of the module to report as.
         """
 

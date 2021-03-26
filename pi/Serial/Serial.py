@@ -7,7 +7,7 @@ from Telemetry.Telemetry import AppExceptions
 
 class SerialCommunicator:
     """
-    Communicates via the serial port.
+    Communicates via the serial bus.
     """
 
     PACKET_TERMINATOR = b"\n"
@@ -19,8 +19,9 @@ class SerialCommunicator:
     def __init__(self, serial_device: str, baud_rate: int):
         """
         Initialize a new serial communication bus.
+
         :param serial_device: name of the serial device to connect via.
-        :param baud_rate: the communication rate.
+        :param baud_rate: communication rate (baud).
         """
 
         if baud_rate <= 0:
@@ -56,6 +57,7 @@ class SerialCommunicator:
     def receive(self) -> BasicSerialPacket:
         """
         Read from the buffer the next serial packet.
+
         :return: a serial packet read from the serial bus.
         """
 

@@ -1,6 +1,7 @@
 import os
 from enum import Enum
 from os import path
+from typing import List, AnyStr
 
 import Audio.Interface
 from Configuration.Configuration import AppConfig
@@ -27,11 +28,12 @@ class SpeechLibrary:
         AT_LEAST_ONE = 2
 
     class Word:
-        def __init__(self, file_path: str, emotions: list, interface: Audio.Interface.AudioInterface = None):
+        def __init__(self, file_path: AnyStr, emotions: List, interface: Audio.Interface.AudioInterface = None):
             """
             Initialize a new word sound effect.
+
             :param file_path: path of the sound file relative to the data directory.
-            :param emotions: the emotions embodied in this sound effect.
+            :param emotions: filter emotions embodied in this sound effect.
             :param interface: audio interface to play the sound through.
             """
 
@@ -47,6 +49,7 @@ class SpeechLibrary:
         def get_absolute_path(self, app_config: AppConfig):
             """
             Retrieve the absolute file path according to the data directory specified in the application configuration.
+
             :param app_config: application configuration data.
             :return: absolute audio file path.
             """
@@ -57,6 +60,7 @@ class SpeechLibrary:
             """
             Play the word (if an interface was configured initializing this word).
             *Note*: no sound volume adjustment is available using this method.
+
             :param app_config: prepared application configuration object.
             :param volume_adjustment: adjustment to the word volume in decibels.
             """
@@ -119,8 +123,9 @@ class SpeechLibrary:
     def __init__(self, parent_path: str = ""):
         """
         Initialize the speech library.
+
         :param parent_path: the path in which word file paths reside,
-        i.e. the path that is the parent to Word.file_path.
+            i.e. the path that is the parent to Word.file_path.
         """
 
         self._parent_path = parent_path
@@ -130,6 +135,7 @@ class SpeechLibrary:
                   interface: Audio.Interface.AudioInterface = None) -> list[Word]:
         """
         Retrieve all words according to the specified emotions and filtering method.
+
         :param emotions: list of emotions to search words by.
         :param filtering_method: how to filter words according to the specified emotions.
         :param interface: audio interface to play the words through.
