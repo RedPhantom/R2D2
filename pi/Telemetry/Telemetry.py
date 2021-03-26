@@ -7,7 +7,7 @@ from os import path
 from Configuration.Configuration import LoggingConfig
 
 
-class ApplicationExceptions:
+class AppExceptions:
     def __init__(self):
         pass
 
@@ -29,7 +29,7 @@ class Logging:
         """
 
         if not path.exists(logging_config.log_path):
-            raise ApplicationExceptions.InvalidPathException(logging_config.log_path)
+            raise AppExceptions.InvalidPathException(logging_config.log_path)
 
         logging.basicConfig(
             filename=logging_config.log_path,
