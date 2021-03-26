@@ -1,12 +1,11 @@
 # Purpose: contain different kinds of serial packets.
 import struct
-from enum import Enum
-from typing import Dict
+from enum import IntEnum
 
 from CustomTypes import LimitedSignedPercentage
 
 
-class SerialPacketType(Enum):
+class SerialPacketType(IntEnum):
     """
     Holds different packet types.
     """
@@ -21,22 +20,30 @@ class SerialPacketType(Enum):
     LAST = 0xFF
 
 
-# TODO: add motor packet, sensor packet, etc.
+class MotorSerialPacketType(IntEnum):
+    SPEED = 0x1
+
 
 class BasicSerialPacket:
     """
     Models a basic serial packet.
-    Packets are made out of a type and raw data.
+    Packets are made out of a type, sub-type (determined by the packet itself) and raw data.
     """
 
     STRUCT_FORMAT = "Bs"
     """
     *struct*-compatible format for parsing serial packet data.
+    
+    - ``B`` - unsigned char.
+    - ``s`` - char array.
     """
 
-    def __init__(self, packet_type: SerialPacketType, data: bytes = ()):
+    def __init__(self, packet_type: SerialPacketType, data: bytes):
         """
         Initialize a new serial packet.
+        For every packet inheriting this Base Serial Packet, the ``super()`` call should be at the end of
+        the inheriting class' ``__init__`` method.
+
         :param packet_type: 8-bit unsigned integer describing the type of the packet sent.
         :param data: data to write to the serial bus.
         """
@@ -49,10 +56,12 @@ class BasicSerialPacket:
 
         self._packet_type = packet_type
         self._data = data
+        self._bytes = bytes([self._packet_type]) + self._data
 
     def __str__(self, encoding="utf8"):
         """
         Retrieve the string representation of the packet.
+
         :param encoding: the encoding used to parse the packet data as.
         """
 
@@ -66,18 +75,28 @@ class BasicSerialPacket:
 
     @property
     def bytes(self):
-        # B: unsigned char.
-        # s: char[].
-        return struct.pack(self.STRUCT_FORMAT, self._packet_type, self._data)
+        return self._bytes
 
 
 class MotorSpeedSerialPacket(BasicSerialPacket):
-    def __init__(self, motor_speeds: Dict[int: LimitedSignedPercentage]):
+    """
+    A packet that orders a motor to be provided a voltage relative to its maximum voltage.
+    Call the constructor with the required motor ID and speed, and then access the ``bytes`` property
+    to receive the byte sequence to send via the serial bus.
+    """
+
+    def __init__(self, motor_id: int, speed: LimitedSignedPercentage):
         """
-        TODO
-        :param motor_speeds: dictionary of motor indexes and their speeds (as a percentage of the voltage they
-        may receive. Negative values represent reverse rotation direction).
+        Initialize a packet that configures the motor speeds according to the following bytes:
+            0. ``MOTORS`` serial packet type.
+            1. ``SPEED`` serial packet sub-type.
+            2. Motor ID.
+            3. Motor speed.
+
+        :param motor_id: identifier of the motor to control.
+        :param speed: motor speed to set, as a percentage of the voltage the motor may receive.
+            Negative values represent reverse rotation direction.
         """
 
-        super(BasicSerialPacket, self).__init__(SerialPacketType.MOTORS)
-        raise NotImplementedError
+        self._fields = [MotorSerialPacketType.SPEED.value, motor_id, speed.__int__()]
+        super().__init__(SerialPacketType.MOTORS, bytes(self._fields))
