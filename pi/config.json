@@ -1,6 +1,6 @@
 {
     "app_config": {
-        "data_dir": "D:\\Development\\R2D2\\pi\\data"
+        "data_dir": "C:\\Development\\R2D2\\pi\\data"
     },
     "audio_config": {
         "frequency": 44100,

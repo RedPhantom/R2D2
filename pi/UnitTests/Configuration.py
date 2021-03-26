@@ -8,7 +8,7 @@ from Configuration.Configuration import Config
 class BasicSanity(unittest.TestCase):
     def test_create(self):
         """
-        This test ensures configuration object are created and have default values.
+        Ensure configuration object are created and have default values.
         """
 
         c1 = Config()
@@ -20,7 +20,7 @@ class BasicSanity(unittest.TestCase):
 
     def test_save_load(self):
         """
-        This test ensures default configuration is saved and loaded correctly.
+        Ensure default configuration is saved and loaded correctly.
         """
 
         c1 = Config()

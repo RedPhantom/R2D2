@@ -29,7 +29,7 @@ class AppConfig(ConfigModelBase):
     """
 
     class Defaults:
-        DATA_DIR: str = "D:\\Development\\R2D2\\pi\\data"
+        DATA_DIR: str = "C:\\Development\\R2D2\\pi\\data"
 
     def __init__(self,
                  data_dir: str = Defaults.DATA_DIR):

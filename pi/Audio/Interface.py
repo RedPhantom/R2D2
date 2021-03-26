@@ -6,7 +6,7 @@ from os import path
 from pydub import AudioSegment
 from pydub.playback import play
 
-from SCM.Configuration import AudioConfig
+from Configuration.Configuration import AudioConfig
 from Telemetry.Telemetry import AppExceptions
 
 
@@ -17,19 +17,18 @@ class AudioInterface:
     def __init__(self, audio_config: AudioConfig):
         self._config = audio_config
 
-    def play_sound(self, file_path: str, volume: float = Defaults.VOLUME):
+    @staticmethod
+    def play_sound(file_path: str, volume_adjustment: float = Defaults.VOLUME):
         """
         Play a sound file in the background at the specified volume.
         :param file_path: path to the sound file to play.
-        :param volume: adjustment to the audio file amplitude, in Decibels.
+        :param volume_adjustment: adjustment to the audio file amplitude, in Decibels.
         """
 
         if not path.exists(file_path):
             raise AppExceptions.InvalidPathException(file_path)
 
-        sound = AudioSegment(frame_rate=self._config.frequency)
-        sound.from_file(file_path)
-
-        sound = sound[:] + volume
+        sound = AudioSegment.from_file(file_path)
+        sound = sound[:] + volume_adjustment
 
         play(sound)
