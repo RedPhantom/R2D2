@@ -15,6 +15,8 @@ class ApplicationExceptions:
 
             super().__init__(self._message % (self._path,))
 
+    class SerialException(Exception):
+        pass
 
 class Logging:
     def __init__(self, logging_config: LoggingConfig):
