@@ -1,8 +1,8 @@
 import random
 
-from AIM.AIM import AudioInterface
-from AIM.Library import SpeechLibrary
-from SCM.Configuration import AppConfig, AudioConfig
+from Audio.Audio import AudioInterface
+from Audio.Library import SpeechLibrary
+from Configuration.Configuration import AppConfig, AudioConfig
 
 
 def audio_test():

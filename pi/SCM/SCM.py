@@ -2,8 +2,8 @@
 # Purpose: Manage droid application configuration.
 from os import path
 
-from SCM.Configuration import Config
-from TLM.TLM import AppExceptions
+from Configuration.Configuration import Config
+from Telemetry.Telemetry import AppExceptions
 
 
 class ConfigurationManager:

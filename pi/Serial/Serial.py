@@ -1,8 +1,8 @@
 import serial
 import struct
 
-from TLM.SerialPackets import BasicSerialPacket, SerialPacketType
-from TLM.TLM import ApplicationExceptions
+from Telemetry.SerialPackets import BasicSerialPacket, SerialPacketType
+from Telemetry.Telemetry import AppExceptions
 
 
 class SerialCommunicator:
@@ -35,7 +35,7 @@ class SerialCommunicator:
         try:
             self._serial_port = serial.Serial(self._serial_device, self._baud_rate, timeout=2)
         except serial.SerialException as e:
-            raise ApplicationExceptions.SerialException(e)
+            raise AppExceptions.SerialException(e)
 
     def __del__(self):
         self._serial_port.close()
@@ -46,12 +46,12 @@ class SerialCommunicator:
         """
 
         if not self._serial_port.is_open:
-            raise ApplicationExceptions.SerialException("Called send when serial port is closed.")
+            raise AppExceptions.SerialException("Called send when serial port is closed.")
 
         try:
             self._serial_port.write(packet.bytes + self.PACKET_TERMINATOR)
         except serial.SerialException as e:
-            raise ApplicationExceptions.SerialException(e)
+            raise AppExceptions.SerialException(e)
 
     def receive(self) -> BasicSerialPacket:
         """
@@ -60,13 +60,13 @@ class SerialCommunicator:
         """
 
         if not self._serial_port.is_open:
-            raise ApplicationExceptions.SerialException("Called read when serial port is closed.")
+            raise AppExceptions.SerialException("Called read when serial port is closed.")
 
         raw_data = self._serial_port.readline().rstrip(self.PACKET_TERMINATOR)
         packet_type, packet_data = struct.unpack(BasicSerialPacket.STRUCT_FORMAT, raw_data)
 
         if packet_type not in SerialPacketType.__dict__.values():
-            raise ApplicationExceptions.SerialException("Received an invalid packet type.")
+            raise AppExceptions.SerialException("Received an invalid packet type.")
 
         return BasicSerialPacket(packet_data, packet_data)
 

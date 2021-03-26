@@ -21,6 +21,7 @@ class AppExceptions:
     class SerialException(Exception):
         pass
 
+
 class Logging:
     def __init__(self, logging_config: LoggingConfig):
         """
@@ -33,7 +34,7 @@ class Logging:
 
         logging.basicConfig(
             filename=logging_config.log_path,
-            format=logging_config.format,
+            format=logging_config.message_format,
             level=logging_config.level
         )
 

@@ -48,11 +48,11 @@ class BasicSanity(unittest.TestCase):
         It also ensures no by-reference issues occur when modifying configuration objects.
         For example, the following code, having a backend bug, could cause c2 to be the same as c1:
 
-        >>> c1 = Config()
-        >>> c2 = Config()
+        >>> config1 = Config()
+        >>> config2 = Config()
         >>>
-        >>> c1.app_config.data_dir = "C:\"
-        >>> print c2.app_config.data_dir # This would print "C:\" instead of the default value.
+        >>> config1.app_config.data_dir = "C:\"
+        >>> print config2.app_config.data_dir # This would print "C:\" instead of the default value.
         """
 
         c1 = Config()

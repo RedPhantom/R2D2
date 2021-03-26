@@ -7,7 +7,7 @@ from pydub import AudioSegment
 from pydub.playback import play
 
 from SCM.Configuration import AudioConfig
-from TLM.TLM import AppExceptions
+from Telemetry.Telemetry import AppExceptions
 
 
 class AudioInterface:
@@ -27,10 +27,8 @@ class AudioInterface:
         if not path.exists(file_path):
             raise AppExceptions.InvalidPathException(file_path)
 
-        if volume > 1 or volume < 0:
-            raise ValueError("'volume' must be between 0 and 1.")
-
-        sound = AudioSegment.from_wav(file_path)
+        sound = AudioSegment(frame_rate=self._config.frequency)
+        sound.from_file(file_path)
 
         sound = sound[:] + volume
 

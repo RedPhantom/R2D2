@@ -41,8 +41,6 @@ class LimitedSignedPercentage:
             self._value = self._safe_sub(self._value, other)
 
     def __mul__(self, other):
-        op_result = 0
-
         if isinstance(other, LimitedSignedPercentage):
             op_result = self._value * other._value
         else:

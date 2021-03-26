@@ -1,7 +1,7 @@
 from enum import Enum
 from os import path
 
-from SCM.Configuration import AppConfig
+from Configuration.Configuration import AppConfig
 
 
 class SpeechLibrary:
@@ -106,7 +106,8 @@ class SpeechLibrary:
 
         self._parent_path = parent_path
 
-    def get_words(self, emotions: list[Emotions], filtering_method: EmotionFilters = EmotionFilters.INCLUDING) -> list[Word]:
+    def get_words(self, emotions: list[Emotions],
+                  filtering_method: EmotionFilters = EmotionFilters.INCLUDING) -> list[Word]:
         """
         Retrieve all words according to the specified emotions and filtering method.
         :param emotions: list of emotions to search words by.
