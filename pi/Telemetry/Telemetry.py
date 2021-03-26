@@ -4,10 +4,13 @@
 import logging
 from os import path
 
-from SCM.Configuration import LoggingConfig
+from Configuration.Configuration import LoggingConfig
 
 
 class ApplicationExceptions:
+    def __init__(self):
+        pass
+
     class InvalidPathException(Exception):
         def __init__(self, invalid_path, message="The specified path does not exist: %s"):
             self._path = invalid_path

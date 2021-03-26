@@ -1,8 +1,8 @@
-# Purpose: contain unit tests for the SCM module.
+# Purpose: contain unit tests for the Configuration module.
 import os
 import unittest
 
-from SCM.Configuration import Config
+from Configuration.Configuration import Config
 
 
 class BasicSanity(unittest.TestCase):
