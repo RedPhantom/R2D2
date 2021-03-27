@@ -4,7 +4,7 @@ import random
 
 from Audio.Interface import AudioInterface
 from Audio.Library import SpeechLibrary
-from Configuration.Configuration import Config
+from Configuration.Configuration import get_test_config
 
 
 class BasicSanity(unittest.TestCase):
@@ -13,7 +13,7 @@ class BasicSanity(unittest.TestCase):
         Ensure a sound effect is played correctly by playing a random word.
         """
 
-        config = Config()
+        config = get_test_config()
         speech_library = SpeechLibrary()
         interface = AudioInterface(config.audio_config)
         no_emotion_filters = []

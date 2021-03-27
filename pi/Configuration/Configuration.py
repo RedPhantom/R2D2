@@ -3,6 +3,8 @@ import logging
 import json
 import copy
 
+import Consts
+
 
 class ConfigModelBase:
     """
@@ -128,7 +130,7 @@ class Config:
                 config_file.write(json_data)
 
         except IOError as io_err:
-            print("ERROR: Failed to save configuration file to %s: %s" % (configuration_path, io_err))
+            print(f"ERROR: Failed to save configuration file to {configuration_path}: {io_err}.")
 
     def load(self, configuration_path):
         """
@@ -147,4 +149,19 @@ class Config:
                 self.logging_config = LoggingConfig(**json_data["logging_config"])
 
         except IOError as io_err:
-            print("ERROR: Failed to load configuration from file %s: %s" % (configuration_path, io_err))
+            print(f"ERROR: Failed to load configuration from file {configuration_path}: {io_err}.")
+
+
+def get_test_config() -> Config:
+    """
+    Get a configuration adapted for testing (i.e. preferring the local config.json,
+    although the default is available as well).
+    :return: a prepared configuration object.
+    """
+
+    config = Config()
+
+    try:
+        config.load(Consts.CONFIG_PATH)
+    finally:
+        return config
