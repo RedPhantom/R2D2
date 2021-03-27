@@ -14,10 +14,14 @@ class SerialPacketType(IntEnum):
     SENSORS = 0x2
 
     CONT = 0xFE
-    """This packet type informs the receiver that the next packet is related to the previous one."""
+    """
+    This packet type informs the receiver that the next packet is related to the previous one.
+    """
 
     LAST = 0xFF
-    """This packet type informs the receive that the next packet is the last related packet to the previous one."""
+    """
+    This packet type informs the receive that the next packet is the last related packet to the previous one.
+    """
 
 
 class MotorSerialPacketType(IntEnum):
