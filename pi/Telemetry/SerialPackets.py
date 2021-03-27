@@ -2,7 +2,7 @@
 import struct
 from enum import IntEnum
 
-from CustomTypes import LimitedSignedPercentage
+from Limits import Limits, LimitNames
 
 
 class SerialPacketType(IntEnum):
@@ -100,7 +100,7 @@ class MotorSpeedSerialPacket(BasicSerialPacket):
     to receive the byte sequence to send via the serial bus.
     """
 
-    def __init__(self, motor_id: int, speed: LimitedSignedPercentage):
+    def __init__(self, motor_id: int, speed: int):
         """
         Initialize a packet that configures the motor speeds according to the following bytes:
             0. ``MOTORS`` serial packet type.
@@ -113,5 +113,6 @@ class MotorSpeedSerialPacket(BasicSerialPacket):
             Negative values represent reverse rotation direction.
         """
 
+        Limits.assert_limit(LimitNames.SIGNED_PERCENTAGE, speed)
         self._fields = [MotorSerialPacketType.SPEED.value, motor_id, speed.__int__()]
         super().__init__(SerialPacketType.MOTORS, bytes(self._fields))

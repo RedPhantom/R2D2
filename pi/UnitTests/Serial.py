@@ -1,7 +1,6 @@
 # Purpose: contain unit tests for serial capabilities.
 import unittest
 
-from CustomTypes import LimitedSignedPercentage
 from Telemetry.SerialPackets import MotorSpeedSerialPacket, SerialPacketType, MotorSerialPacketType
 
 
@@ -13,7 +12,7 @@ class BasicSanity(unittest.TestCase):
 
         # MotorSpeedSerialPacket
         motor_index = 5
-        motor_speed = LimitedSignedPercentage(95)
+        motor_speed = 95
         mssp = MotorSpeedSerialPacket(motor_index, motor_speed)
         mssp_bytes = bytes(
             [SerialPacketType.MOTORS, MotorSerialPacketType.SPEED, motor_index, motor_speed.__int__()])
