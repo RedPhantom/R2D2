@@ -1,15 +1,6 @@
 # Purpose: provide limited-possible-value types.
-from enum import Enum
-from typing import Any, Dict, Union
 
-
-class LimitNames(Enum):
-    """
-    All types of Limits.
-    """
-
-    SIGNED_PERCENTAGE = 0
-    UNSIGNED_PERCENTAGE = 1
+from typing import Union
 
 
 class BaseLimit:
@@ -73,6 +64,7 @@ class NumericLimit(BaseLimit):
     def assert_value(self, value, use_silent_assert: bool = False):
         """
         Assert the specified value is valid to this Limit.
+
         :param value: value to check the validity of.
         :param use_silent_assert: whether to return, without raising an exception, the closest valid value to the
             invalid value specified, if that's the case.
@@ -81,25 +73,33 @@ class NumericLimit(BaseLimit):
         """
 
         if self._min_value and self._max_value is None:
-            if value < self._min_value:
+            if value <= self._min_value:
                 if use_silent_assert:
                     return self._min_value
                 else:
                     raise AssertionError(f"Expected value {value} >= {self._min_value}, got otherwise.")
 
         if self._max_value and self._min_value is None:
-            if value > self._max_value:
+            if value >= self._max_value:
                 if use_silent_assert:
                     return self._max_value
                 else:
                     raise AssertionError(f"Expected value {value} <= {self._max_value}, got otherwise.")
 
-        if value < self._min_value or value > self._max_value:
+        if value <= self._min_value or value >= self._max_value:
             if use_silent_assert:
                 return self._min_value if value < self._min_value else self._max_value
             else:
                 raise AssertionError(
                     f"Expected value in range {self._min_value} <= {value} <= {self._max_value}, got otherwise.")
+
+    @property
+    def min(self):
+        return self._min_value
+
+    @property
+    def max(self):
+        return self._max_value
 
 
 class ListLimit(BaseLimit):
@@ -115,6 +115,7 @@ class ListLimit(BaseLimit):
     def __init__(self, valid_items: Union[list, set]):
         """
         Initialize a new list Limit.
+
         :param valid_items: a list or a set of valid items.
         """
 
@@ -134,14 +135,27 @@ class Limits:
     Define supported limits.
     """
 
-    LIMITS: Dict[LimitNames, BaseLimit] = {
-        LimitNames.SIGNED_PERCENTAGE: NumericLimit(min_value=-100, max_value=+100),
-        LimitNames.UNSIGNED_PERCENTAGE: NumericLimit(min_value=0, max_value=+100),
-    }
+    SIGNED_PERCENTAGE = NumericLimit(min_value=-100, max_value=+100)
     """
-    Dictionary containing all available limits.
+    Valid values are integers between -100 and 100, inclusive.
     """
 
-    @staticmethod
-    def assert_limit(limit: LimitNames, value: Any):
-        Limits.LIMITS[limit].assert_value(value)
+    UNSIGNED_PERCENTAGE = NumericLimit(min_value=0, max_value=+100)
+    """
+    Valid values are integers between 0 and 100, inclusive.
+    """
+
+    TURN_ANGLE = NumericLimit(min_value=-180, max_value=+180)
+    """
+    Valid values are integers between -180 and 180, inclusive.
+    """
+
+    POSITIVE_INT = NumericLimit(min_value=0)
+    """
+    Valid values are integers greater than 0.
+    """
+
+    TWO_BYTE_UINT = NumericLimit(min_value=0, max_value=2 ** 16 - 1)
+    """
+    Valid values are integers between 0 and 2 ** 16 - 1, inclusive.
+    """

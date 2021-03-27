@@ -1,4 +1,4 @@
-# Purpose: Initialize and start the droid application.
+# Purpose: initialize and start the droid application.
 
 def init():
     """

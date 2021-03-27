@@ -1,7 +1,11 @@
+# Purpose: provide serial bus communication capabilities.
+
 import serial
 import struct
 
-from Telemetry.SerialPackets import BasicSerialPacket, SerialPacketType
+from Consts import SerialConstants
+from Serial import PacketMapping
+from Serial.SerialPackets import BasicSerialPacket
 from Telemetry.Telemetry import AppExceptions
 
 
@@ -65,12 +69,13 @@ class SerialCommunicator:
             raise AppExceptions.SerialException("Called read when serial port is closed.")
 
         raw_data = self._serial_port.readline().rstrip(self.PACKET_TERMINATOR)
-        packet_type, packet_data = struct.unpack(BasicSerialPacket.STRUCT_FORMAT, raw_data)
+        packet_type, packet_subtype, packet_data = struct.unpack(SerialConstants.STRUCT_FORMAT, raw_data)
 
-        if packet_type not in SerialPacketType.__dict__.values():
+        if packet_type not in SerialConstants.SerialPacketType.__dict__.values():
             raise AppExceptions.SerialException("Received an invalid packet type.")
 
-        return BasicSerialPacket(packet_data, packet_data)
+        packet_class = PacketMapping.PACKET_MAPPING[(packet_type, packet_subtype)]
+        return packet_class(packet_data)
 
     @property
     def device_name(self):

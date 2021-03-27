@@ -1,3 +1,5 @@
+# Purpose: provide the droid speech library.
+
 import os
 from enum import Enum
 from os import path
@@ -18,16 +20,30 @@ class SpeechLibrary:
         CONFUSED = 4
 
     class EmotionFilters(Enum):
-        # The specified emotions must be embodied in the word.
+        """
+        The different filtering techniques when choosing words for the droid.
+        """
+
         INCLUDING = 0
+        """
+        The specified emotions must be embodied in the word.
+        """
 
-        # The specified emotions must be the only emotions embodied in the word.
         EXCLUSIVE = 1
+        """
+        The specified emotions must be the only emotions embodied in the word.
+        """
 
-        # At least one of the specified emotions must be embodied in the word.
         AT_LEAST_ONE = 2
+        """
+        At least one of the specified emotions must be embodied in the word.
+        """
 
     class Word:
+        """
+        The most basic "unit of speech" for the droid's expression.
+        """
+
         def __init__(self, file_path: AnyStr, emotions: List, interface: Audio.Interface.AudioInterface = None):
             """
             Initialize a new word sound effect.
@@ -56,7 +72,7 @@ class SpeechLibrary:
 
             return path.join(app_config.data_dir, self.file_path)
 
-        def play(self, app_config: AppConfig, volume_adjustment = 0):
+        def play(self, app_config: AppConfig, volume_adjustment=0):
             """
             Play the word (if an interface was configured initializing this word).
             *Note*: no sound volume adjustment is available using this method.
@@ -119,6 +135,9 @@ class SpeechLibrary:
         Word(file_path=os.path.join(AUDIO_DIR, "47.wav"), emotions=[Emotions.SCREAMING, ]),
         Word(file_path=os.path.join(AUDIO_DIR, "48.wav"), emotions=[Emotions.CONFUSED, ]),
     ]
+    """
+    The bank of words the droid can use.
+    """
 
     def __init__(self, parent_path: str = ""):
         """

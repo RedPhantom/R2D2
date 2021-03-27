@@ -1,4 +1,5 @@
-# Purpose: Provide a data model to represent the application configuration.
+# Purpose: provide a data model to represent the application configuration.
+
 import logging
 import json
 import copy
@@ -162,6 +163,6 @@ def get_test_config() -> Config:
     config = Config()
 
     try:
-        config.load(Consts.CONFIG_PATH)
+        config.load(Consts.ConfigConstants.CONFIG_PATH)
     finally:
         return config

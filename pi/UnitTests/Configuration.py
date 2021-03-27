@@ -1,4 +1,5 @@
 # Purpose: contain unit tests for the Configuration module.
+
 import os
 import unittest
 

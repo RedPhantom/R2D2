@@ -1,5 +1,4 @@
-# Module:  Telemetry and Logging Module
-# Purpose: Perform logging and telemetry reporting.
+# Purpose: perform logging and telemetry reporting.
 
 import logging
 from os import path

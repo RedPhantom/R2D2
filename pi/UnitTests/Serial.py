@@ -1,7 +1,9 @@
 # Purpose: contain unit tests for serial capabilities.
+
 import unittest
 
-from Telemetry.SerialPackets import MotorSpeedSerialPacket, SerialPacketType, MotorSerialPacketType
+from Consts import SerialConstants, Types
+from Serial.SerialPackets import MotorSpeedSerialPacket
 
 
 class BasicSanity(unittest.TestCase):
@@ -12,9 +14,12 @@ class BasicSanity(unittest.TestCase):
 
         # MotorSpeedSerialPacket
         motor_index = 5
-        motor_speed = 95
+        motor_speed = Types.Percentage(95)
         mssp = MotorSpeedSerialPacket(motor_index, motor_speed)
-        mssp_bytes = bytes(
-            [SerialPacketType.MOTORS, MotorSerialPacketType.SPEED, motor_index, motor_speed.__int__()])
+        fields = [SerialConstants.SerialPacketType.MOTORS,
+                  SerialConstants.MotorSerialPacketType.SPEED,
+                  motor_index,
+                  motor_speed.__int__()]
+        mssp_bytes = bytes(fields)
         self.assertEqual(mssp_bytes, mssp.bytes,
                          "Expected specific byte sequence for MotorSpeedSerialPacket, got another.")
