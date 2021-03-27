@@ -223,3 +223,7 @@ dmypy.json
 
 # profiling data
 .prof
+
+# Sphinx files and documents
+source/
+#build/
