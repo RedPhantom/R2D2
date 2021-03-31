@@ -207,7 +207,7 @@ def seconds_to_milliseconds(secs: float) -> int:
     :return: a whole number of milliseconds.
     """
 
-    return int(secs * 1000)
+    return abs(int(secs * 1000))
 
 
 def percentage_to_float(percentage: float) -> float:
