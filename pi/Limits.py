@@ -4,6 +4,10 @@ from typing import Union
 
 
 class BaseLimit:
+    """
+    The base class all limits must implement.
+    """
+
     def __init__(self, supports_silent_assert: bool = False):
         """
         Initialize a base limit.
@@ -95,10 +99,18 @@ class NumericLimit(BaseLimit):
 
     @property
     def min(self):
+        """
+        Minimum value this limit can accept, inclusive.
+        """
+
         return self._min_value
 
     @property
     def max(self):
+        """
+        Maximum value this limit can accept, inclusive.
+        """
+
         return self._max_value
 
 
@@ -155,7 +167,7 @@ class Limits:
     Valid values are integers greater than 0.
     """
 
-    TWO_BYTE_UINT = NumericLimit(min_value=0, max_value=2 ** 16 - 1)
+    TWO_BYTE_UNSIGNED_INT = NumericLimit(min_value=0, max_value=2 ** 16 - 1)
     """
     Valid values are integers between 0 and 2 ** 16 - 1, inclusive.
     """

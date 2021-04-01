@@ -6,7 +6,7 @@ import struct
 from Consts import SerialConstants
 from Serial import PacketMapping
 from Serial.SerialPackets import BasicSerialPacket
-from Telemetry.Telemetry import AppExceptions
+from Telemetry.Exceptions import AppExceptions
 
 
 class SerialCommunicator:

@@ -6,7 +6,7 @@ from pydub import AudioSegment
 from pydub.playback import play
 
 from Configuration.Configuration import AudioConfig
-from Telemetry.Telemetry import AppExceptions
+from Telemetry.Exceptions import AppExceptions
 
 
 class AudioInterface:
@@ -20,6 +20,7 @@ class AudioInterface:
     def play_sound(file_path: str, volume_adjustment: float = Defaults.VOLUME):
         """
         Play a sound file in the background at the specified volume.
+        **Note**: with the current version of pydub, this test echos a warning for an "unclosed file".
 
         :param file_path: path to the sound file to play.
         :param volume_adjustment: adjustment to the audio file amplitude, in Decibels.
